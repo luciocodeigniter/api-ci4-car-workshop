@@ -72,7 +72,7 @@ class CustomersController extends ResourceController
 
         if ($customer === null) {
 
-            $this->failNotFound();
+            return $this->failNotFound();
         }
 
 
@@ -95,6 +95,16 @@ class CustomersController extends ResourceController
      */
     public function delete($id = null)
     {
-        //
+        
+        $customer = $this->model->find($id);
+
+        if ($customer === null) {
+
+            return $this->failNotFound();
+        }
+
+        $this->model->delete($id);
+
+        return $this->respondDeleted(message: 'Success!');
     }
 }
