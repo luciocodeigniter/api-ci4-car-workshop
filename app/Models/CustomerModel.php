@@ -24,4 +24,33 @@ class CustomerModel extends Model
     protected $dateFormat    = 'datetime';
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
+
+    /** @inheritDoc */
+    public function paginate(?int $perPage = null, string $group = 'default', ?int $page = null, int $segment = 0)
+    {
+
+        $customers = parent::paginate(perPage: $perPage, group: $group, page: $page, segment: $segment);
+
+        if (empty($customers)) {
+
+            return [];
+        }
+
+        $cars = model(CarModel::class)->whereIn('customer_id', array_column($customers, 'id'))->findAll();
+
+
+        foreach ($customers as $customer) {
+
+            foreach ($cars as $car) {
+
+                if ($customer->id === $car->customer_id) {
+
+                    $customer->cars[] = $car;
+                }
+            }
+        }
+
+
+        return $customer;
+    }
 }

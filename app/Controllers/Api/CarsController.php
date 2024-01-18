@@ -8,7 +8,7 @@ use App\Validation\CustomerValidation;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
 
-class CustomersController extends ResourceController
+class CarsController extends ResourceController
 {
 
     protected $modelName = CustomerModel::class;
@@ -21,15 +21,7 @@ class CustomersController extends ResourceController
      */
     public function index()
     {
-        
-        $page    = (int) ($this->request->getGet('page') ?? 1);
-        $perPage = (int) ($this->request->getGet('perPage') ?? 1);
-
-        return $this->respond([
-            'code'      => 200,
-            'pager'     => $this->model->pager,
-            'customers' => $this->model->paginate(perPage: $perPage, page: $page),
-        ]);
+        return $this->respond($this->model->asArray()->findAll());
     }
 
     /**
