@@ -28,9 +28,12 @@ class CustomersController extends ResourceController
         $perPage = !empty($this->request->getGet('perPage')) ? (int) $this->request->getGet('perPage') : null;
 
 
-        $data = (new CustomerGetDataService)->paginate(perPage: $perPage, page: $page);
+        $customers = (new CustomerGetDataService)->paginate(perPage: $perPage, page: $page);
 
-        return $this->respond($data);
+        return $this->respond([
+            'total' => count($customers),
+            'data'  => $customers,
+        ]);
     }
 
     /**

@@ -27,34 +27,27 @@ class CustomerGetDataService
     public function paginate(?int $perPage = null, ?int $page = null): array
     {
 
-        $customers = $this->model->paginate(perPage: $perPage, page: $page);
+        // Pagina os clientes
+        $customers = $this->model->groupBy('id')->paginate(perPage: $perPage, page: $page);
 
+        // Verifica se não há clientes
         if (empty($customers)) {
-
-            return [
-                'pager' => null,
-                'data'  => [],
-            ];
+            return [];
         }
 
-        $cars = model(CarModel::class)->whereIn('customer_id', array_column($customers, 'id'))->findAll();
+        // Obtém os IDs dos clientes
+        $customerIds = array_column($customers, 'id');
 
+        // Busca todos os carros associados aos clientes em uma única consulta
+        $cars = model(CarModel::class)->whereIn('customer_id', $customerIds)->findAll();
 
         foreach ($customers as $customer) {
-
-            foreach ($cars as $car) {
-
-                if ($customer->id === $car->customer_id) {
-
-                    $customer->cars[] = $car;
-                }
-            }
+            $customer->cars = array_filter($cars, function ($car) use ($customer) {
+                return $car->customer_id === $customer->id;
+            });
         }
 
 
-        return [
-            'pager' => $this->model->pager->getDetails(),
-            'data'  => $customers,
-        ];
+        return $customers;
     }
 }
