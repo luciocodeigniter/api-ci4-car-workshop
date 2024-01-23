@@ -3,6 +3,7 @@
 namespace App\Controllers\Api;
 
 use App\Entities\Customer;
+use App\Libraries\Car\CarGetDataService;
 use App\Models\CustomerModel;
 use App\Validation\CustomerValidation;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -15,13 +16,20 @@ class CarsController extends ResourceController
     protected $format    = 'json';
 
     /**
-     * Return an array of resource objects, themselves in array format
+     * Return an array of resource objects, themselves in array format. api/cars?perPage=2&page=1
+     * 
      *
      * @return ResponseInterface
      */
     public function index()
     {
-        return $this->respond($this->model->asArray()->findAll());
+
+        $page    = !empty($this->request->getGet('page')) ? (int) $this->request->getGet('page') : null;
+        $perPage = !empty($this->request->getGet('perPage')) ? (int) $this->request->getGet('perPage') : null;
+
+        $cars = (new CarGetDataService)->paginate(perPage: $perPage, page: $page);
+
+        return $this->respond($cars);
     }
 
     /**
@@ -95,7 +103,7 @@ class CarsController extends ResourceController
      */
     public function delete($id = null)
     {
-        
+
         $customer = $this->model->find($id);
 
         if ($customer === null) {

@@ -19,7 +19,7 @@ class Car extends Seeder
         // Done, so erase it...
         CLI::showProgress(false);
 
-        echo count($cars) . " created" . PHP_EOL;
+        echo count($cars) . "cars created" . PHP_EOL;
     }
 
 
@@ -29,18 +29,18 @@ class Car extends Seeder
         $faker = (new \Faker\Factory())::create();
         $faker->addProvider(new \Faker\Provider\Fakecar($faker));
 
-        $customers = model(CustomerModel::class)->select(['id'])->findAll();
+        $customers = model(CustomerModel::class)->select(['id'])->asArray()->orderBy('id', 'ASC')->findAll();
 
         $colors = self::colors();
 
         $cars = [];
 
-        $totalSteps = 1000;
+        $totalSteps = 1000; //! Total de registros a serem criados
         $currStep   = 1;
 
         for ($i = 0; $i < $totalSteps; $i++) {
 
-            CLI::showProgress($currStep++, $totalSteps);
+            CLI::showProgress($currStep++, $totalSteps); //! mostramos um progresso para orientar o usuário
 
             $car = new CustomerCar();
             $car->customer_id = array_rand(array_column($customers, 'id'));
