@@ -24,10 +24,7 @@ class CustomerValidation
 
             'name' => [
                 'label'  => 'Name',
-                'rules'  => "required|max_length[128]|is_unique[customers.name,id,{$id}]",
-                'errors' => [
-                    'is_unique'    => 'Already exists. Please choose another one.',
-                ],
+                'rules'  => "required|max_length[128]",
             ],
 
             'email' => [

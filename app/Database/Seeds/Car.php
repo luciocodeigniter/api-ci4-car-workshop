@@ -12,6 +12,9 @@ class Car extends Seeder
 {
     public function run()
     {
+
+        $this->db->simpleQuery('PRAGMA foreign_keys = OFF');
+
         $cars = $this->getCars();
 
         model(CarModel::class)->insertBatch($cars);

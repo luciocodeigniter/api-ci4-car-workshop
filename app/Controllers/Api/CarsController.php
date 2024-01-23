@@ -2,17 +2,17 @@
 
 namespace App\Controllers\Api;
 
-use App\Entities\Customer;
+use App\Entities\Car;
 use App\Libraries\Car\CarGetDataService;
-use App\Models\CustomerModel;
-use App\Validation\CustomerValidation;
+use App\Models\CarModel;
+use App\Validation\CarValidation;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
 
 class CarsController extends ResourceController
 {
 
-    protected $modelName = CustomerModel::class;
+    protected $modelName = CarModel::class;
     protected $format    = 'json';
 
     /**
@@ -39,9 +39,9 @@ class CarsController extends ResourceController
      */
     public function show($id = null)
     {
-        $customer = $this->model->asArray()->find($id);
+        $car = $this->model->asArray()->find($id);
 
-        return ($customer !== null) ? $this->respond($customer) : $this->failNotFound();
+        return ($car !== null) ? $this->respond($car) : $this->failNotFound();
     }
 
 
@@ -52,7 +52,7 @@ class CarsController extends ResourceController
      */
     public function create()
     {
-        $rules = (new CustomerValidation)->getRules();
+        $rules = (new CarValidation)->getRules();
 
         if (!$this->validate($rules)) {
 
@@ -61,9 +61,9 @@ class CarsController extends ResourceController
 
         $request = $this->request->getJSON(assoc: true);
 
-        $customer = new Customer($request);
+        $car = new Car($request);
 
-        $this->model->insert($customer);
+        $this->model->insert($car);
 
         return $this->respondCreated(message: 'Success!');
     }
@@ -76,9 +76,9 @@ class CarsController extends ResourceController
      */
     public function update($id = null)
     {
-        $customer = $this->model->find($id);
+        $car = $this->model->find($id);
 
-        if ($customer === null) {
+        if ($car === null) {
 
             return $this->failNotFound();
         }
@@ -86,11 +86,11 @@ class CarsController extends ResourceController
 
         $request = $this->request->getJSON(assoc: true);
 
-        $customer->fill($request);
+        $car->fill($request);
 
-        if ($customer->hasChanged()) {
+        if ($car->hasChanged()) {
 
-            $this->model->save($customer);
+            $this->model->save($car);
         }
 
         return $this->respondUpdated(message: 'Success!');
@@ -104,9 +104,9 @@ class CarsController extends ResourceController
     public function delete($id = null)
     {
 
-        $customer = $this->model->find($id);
+        $car = $this->model->find($id);
 
-        if ($customer === null) {
+        if ($car === null) {
 
             return $this->failNotFound();
         }
