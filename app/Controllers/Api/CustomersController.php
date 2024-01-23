@@ -3,6 +3,7 @@
 namespace App\Controllers\Api;
 
 use App\Entities\Customer;
+use App\Libraries\Customer\CustomerGetDataService;
 use App\Models\CustomerModel;
 use App\Validation\CustomerValidation;
 use CodeIgniter\HTTP\ResponseInterface;
@@ -15,21 +16,21 @@ class CustomersController extends ResourceController
     protected $format    = 'json';
 
     /**
-     * Return an array of resource objects, themselves in array format
+     * Return an array of resource objects, themselves in array format. api/customers?perPage=2&page=1
+     * 
      *
      * @return ResponseInterface
      */
     public function index()
     {
         
-        $page    = (int) ($this->request->getGet('page') ?? 1);
-        $perPage = (int) ($this->request->getGet('perPage') ?? 1);
+        $page    = !empty($this->request->getGet('page')) ? (int) $this->request->getGet('page') : null;
+        $perPage = !empty($this->request->getGet('perPage')) ? (int) $this->request->getGet('perPage') : null;
 
-        return $this->respond([
-            'code'      => 200,
-            'pager'     => $this->model->pager,
-            'customers' => $this->model->paginate(perPage: $perPage, page: $page),
-        ]);
+
+        $data = (new CustomerGetDataService)->paginate(perPage: $perPage, page: $page);
+
+        return $this->respond($data);
     }
 
     /**

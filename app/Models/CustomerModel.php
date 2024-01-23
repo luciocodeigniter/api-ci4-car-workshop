@@ -51,6 +51,6 @@ class CustomerModel extends Model
         }
 
 
-        return $customer;
+        return $customers;
     }
 }
