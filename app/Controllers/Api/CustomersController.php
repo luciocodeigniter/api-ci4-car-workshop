@@ -30,10 +30,8 @@ class CustomersController extends ResourceController
 
         $customers = (new CustomerGetDataService)->paginate(perPage: $perPage, page: $page);
 
-        return $this->respond([
-            'total' => count($customers),
-            'data'  => $customers,
-        ]);
+
+        return $this->respond($customers);
     }
 
     /**

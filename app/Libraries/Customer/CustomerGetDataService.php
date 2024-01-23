@@ -10,13 +10,6 @@ use App\Models\CustomerModel;
 class CustomerGetDataService
 {
 
-    private CustomerModel $model;
-
-    public function __construct()
-    {
-        $this->model = model(CustomerModel::class);
-    }
-
     /**
      * Retrieves paginated records
      *
@@ -28,7 +21,7 @@ class CustomerGetDataService
     {
 
         // Pagina os clientes
-        $customers = $this->model->groupBy('id')->paginate(perPage: $perPage, page: $page);
+        $customers = model(CustomerModel::class)->asArray()->paginate(perPage: $perPage, page: $page);
 
         // Verifica se não há clientes
         if (empty($customers)) {
@@ -39,14 +32,13 @@ class CustomerGetDataService
         $customerIds = array_column($customers, 'id');
 
         // Busca todos os carros associados aos clientes em uma única consulta
-        $cars = model(CarModel::class)->whereIn('customer_id', $customerIds)->findAll();
+        $cars = model(CarModel::class)->whereIn('customer_id', $customerIds)->asArray()->findAll();
 
-        foreach ($customers as $customer) {
-            $customer->cars = array_filter($cars, function ($car) use ($customer) {
-                return $car->customer_id === $customer->id;
+        foreach ($customers as &$customer) {
+            $customer['cars'] = array_filter($cars, function($car) use ($customer) {
+                return $car['customer_id'] === $customer['id'];
             });
         }
-
 
         return $customers;
     }
