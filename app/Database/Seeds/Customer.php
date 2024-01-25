@@ -9,16 +9,14 @@ class Customer extends Seeder
 {
     public function run()
     {
-        
+
         $builder = model(CustomerModel::class);
 
-        // $builder->insertBatch(self::customers());
-        $builder->insert([
-            "name" => "Shannon Allen",
-            "phone" => "(662) 671-4529",
-            "email" => "lacus@yahoo.com",
-        ]);
-        echo 'Customers created' . PHP_EOL;
+        $customers = self::customers();
+
+        $builder->insertBatch($customers);
+
+        echo count($customers) . ' customers created' . PHP_EOL;
     }
 
     private static function customers(): array

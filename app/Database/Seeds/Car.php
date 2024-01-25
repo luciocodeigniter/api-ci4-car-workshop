@@ -10,10 +10,14 @@ use CodeIgniter\Database\Seeder;
 
 class Car extends Seeder
 {
+
+    /**
+     * How many records do you want to create
+     */
+    private const TOTAL_STEPS = 1000;
+
     public function run()
     {
-
-        $this->db->simpleQuery('PRAGMA foreign_keys = OFF');
 
         $cars = $this->getCars();
 
@@ -32,24 +36,30 @@ class Car extends Seeder
         $faker = (new \Faker\Factory())::create();
         $faker->addProvider(new \Faker\Provider\Fakecar($faker));
 
-        $customers = model(CustomerModel::class)->select(['id'])->asArray()->orderBy('id', 'ASC')->findAll();
+        $customers = model(CustomerModel::class)->select(['id'])->orderBy('id', 'ASC')->findAll();
+
+        if (empty($customers)) {
+
+            exit('There are no customers to associate with the cars. Make sure the customer table is properly populated.');
+        }
+
+        $customersIds = array_column($customers, 'id');
 
         $colors = self::colors();
 
         $cars = [];
 
-        $totalSteps = 1; //! Total de registros a serem criados
         $currStep   = 1;
 
-        for ($i = 0; $i < $totalSteps; $i++) {
+        for ($i = 0; $i < self::TOTAL_STEPS; $i++) {
 
-            CLI::showProgress($currStep++, $totalSteps); //! mostramos um progresso para orientar o usuário
+            CLI::showProgress($currStep++, self::TOTAL_STEPS); //! mostramos um progresso para orientar o usuário
 
             $car = new CustomerCar();
-            $car->customer_id = array_rand(array_column($customers, 'id'));
-            $car->brand = $faker->vehicleBrand; // generate only automobile brand
-            $car->model = $faker->vehicleModel; // generate automobile manufacturer and model of car
-            $car->color = $colors[array_rand($colors)];
+            $car->customer_id = $customersIds[array_rand($customersIds)];
+            $car->brand       = $faker->vehicleBrand; // generate only automobile brand
+            $car->model       = $faker->vehicleModel; // generate automobile manufacturer and model of car
+            $car->color       = $colors[array_rand($colors)];
 
             $cars[] = $car;
         }

@@ -37,4 +37,15 @@ class ApiModel extends Model
 
     protected $beforeInsert = ['escapeData'];
     protected $beforeUpdate = ['escapeData'];
+
+    /**
+     * Escape data
+     *
+     * @param array $data
+     * @return array
+     */
+    protected function escapeData(array $data)
+    {
+        return esc($data);
+    }
 }
