@@ -13,17 +13,13 @@ class ApiModel extends Model
     public function __construct()
     {
         parent::__construct();
+
+        $this->setSQLMode();
     }
 
-    /**
-     * Enable SQLite foreign key suport. Otherwise, we cannot delete by cascade
-     *
-     * @return void
-     */
-    protected function enableForeingSuport(): void
+    protected function setSQLMode()
     {
-
-        $this->db->simpleQuery('PRAGMA foreign_keys = ON');
+        $this->db->simpleQuery("set session sql_mode=''");
     }
 
 
@@ -41,17 +37,4 @@ class ApiModel extends Model
 
     protected $beforeInsert = ['escapeData'];
     protected $beforeUpdate = ['escapeData'];
-    protected $beforeDelete = ['enableForeingSuport'];
-
-    /**
-     * Escape data before save
-     *
-     * @param array $data
-     * @return array
-     */
-    protected function escapeData(array $data): array
-    {
-
-        return esc($data);
-    }
 }
