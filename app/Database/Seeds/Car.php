@@ -22,7 +22,7 @@ class Car extends Seeder
         // Done, so erase it...
         CLI::showProgress(false);
 
-        echo count($cars) . "cars created" . PHP_EOL;
+        echo count($cars) . " cars created" . PHP_EOL;
     }
 
 
@@ -38,7 +38,7 @@ class Car extends Seeder
 
         $cars = [];
 
-        $totalSteps = 1000; //! Total de registros a serem criados
+        $totalSteps = 1; //! Total de registros a serem criados
         $currStep   = 1;
 
         for ($i = 0; $i < $totalSteps; $i++) {

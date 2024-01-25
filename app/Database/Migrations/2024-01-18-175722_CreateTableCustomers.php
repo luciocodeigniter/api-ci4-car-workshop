@@ -9,12 +9,12 @@ class CreateTableCustomers extends Migration
     public function up()
     {
         $this->forge->addField([
-            
+
             'id' => [
-                'type'           => 'INT',
-                'constraint'     => 5,
-                'unsigned'       => true,
-                'AUTOINCREMENT' => true,
+                'type'              => 'INT',
+                'constraint'        => 11,
+                'unsigned'          => true,
+                'auto_increment'    => true
             ],
 
             'name' => [

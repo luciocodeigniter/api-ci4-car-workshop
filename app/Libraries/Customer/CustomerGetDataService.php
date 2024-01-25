@@ -21,7 +21,7 @@ class CustomerGetDataService
     {
 
         // Pagina os clientes
-        $customers = model(CustomerModel::class)->asArray()->paginate(perPage: $perPage, page: $page);
+        $customers = model(CustomerModel::class)->asArray()->groupBy('name')->paginate(perPage: $perPage, page: $page);
 
         // Verifica se não há clientes
         if (empty($customers)) {

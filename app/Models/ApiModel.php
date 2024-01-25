@@ -13,8 +13,6 @@ class ApiModel extends Model
     public function __construct()
     {
         parent::__construct();
-
-        $this->enableForeingSuport();
     }
 
     /**
@@ -22,7 +20,7 @@ class ApiModel extends Model
      *
      * @return void
      */
-    private function enableForeingSuport(): void
+    protected function enableForeingSuport(): void
     {
 
         $this->db->simpleQuery('PRAGMA foreign_keys = ON');
@@ -43,6 +41,7 @@ class ApiModel extends Model
 
     protected $beforeInsert = ['escapeData'];
     protected $beforeUpdate = ['escapeData'];
+    protected $beforeDelete = ['enableForeingSuport'];
 
     /**
      * Escape data before save
