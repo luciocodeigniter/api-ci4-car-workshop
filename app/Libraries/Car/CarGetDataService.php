@@ -32,7 +32,7 @@ class CarGetDataService
         $customersIds = array_column($cars, 'customer_id');
 
         // Busca todos os clientes associados aos carros em uma única consulta
-        $customers = empty($customersIds) ? [] : model(CustomerModel::class)->whereIn('id', $customersIds)->asArray()->findAll();
+        $customers = empty($customersIds) ? [] : model(CustomerModel::class)->whereIn('id', $customersIds)->findAll();
 
 
         // Cria um índice dos clientes usando seus IDs

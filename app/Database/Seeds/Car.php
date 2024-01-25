@@ -32,10 +32,6 @@ class Car extends Seeder
 
     private function getCars(): array
     {
-
-        $faker = (new \Faker\Factory())::create();
-        $faker->addProvider(new \Faker\Provider\Fakecar($faker));
-
         $customers = model(CustomerModel::class)->select(['id'])->orderBy('id', 'ASC')->findAll();
 
         if (empty($customers)) {
@@ -47,9 +43,12 @@ class Car extends Seeder
 
         $colors = self::colors();
 
-        $cars = [];
+        $carsContainer = [];
 
         $currStep   = 1;
+
+        $faker = (new \Faker\Factory())::create();
+        $faker->addProvider(new \Faker\Provider\Fakecar($faker));
 
         for ($i = 0; $i < self::TOTAL_STEPS; $i++) {
 
@@ -61,11 +60,11 @@ class Car extends Seeder
             $car->model       = $faker->vehicleModel; // generate automobile manufacturer and model of car
             $car->color       = $colors[array_rand($colors)];
 
-            $cars[] = $car;
+            $carsContainer[] = $car;
         }
 
 
-        return $cars;
+        return $carsContainer;
     }
 
 

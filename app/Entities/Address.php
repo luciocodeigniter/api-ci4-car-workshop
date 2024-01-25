@@ -4,11 +4,12 @@ namespace App\Entities;
 
 use CodeIgniter\Entity\Entity;
 
-class Customer extends Entity
+class Address extends Entity
 {
     protected $datamap = [];
     protected $dates   = ['created_at', 'updated_at'];
     protected $casts   = [
-        'id' => '?integer',
+        'id'          => '?integer',
+        'customer_id' => '?integer',
     ];
 }
