@@ -5,6 +5,7 @@ use App\Controllers\Api\CarsController;
 use App\Controllers\Api\CustomersController;
 use App\Controllers\Api\EmployeesController;
 use App\Controllers\Api\MaintenanceController;
+use App\Controllers\Api\MaintenanceServicesController;
 use App\Controllers\Api\ServicesController;
 use CodeIgniter\Router\RouteCollection;
 
@@ -20,5 +21,7 @@ $routes->group('api', ['namespace' => '', 'placeholder' => '(:num)'], static fun
     $routes->resource('adresses',  ['controller' => AdressesController::class,  'except' => 'new,edit']);
     $routes->resource('employees', ['controller' => EmployeesController::class, 'except' => 'new,edit']);
     $routes->resource('services',  ['controller' => ServicesController::class,  'except' => 'new,edit']);
+
     $routes->resource('maintenance',  ['controller' => MaintenanceController::class,  'except' => 'new,edit']);
+    $routes->resource('maintenance-services',  ['controller' => MaintenanceServicesController::class,  'except' => 'index,new,edit']);
 });

@@ -16,6 +16,8 @@ class MaintenanceServiceModel extends ApiModel
         'quantity',
     ];
 
+    protected $useTimestamps = false; // não tem Timestamps
+
 
     /**
      * Retrieves the services associated with $maintenanceId, which can be a single identifier or array of identifiers
