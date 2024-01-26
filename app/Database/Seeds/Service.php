@@ -21,12 +21,13 @@ class Service extends Seeder
 
         $services = $this->getServices();
 
+        CLI::write('Creating ' . count($services) . ' services. Please, wait.', 'yellow');
+
         model(ServiceModel::class)->insertBatch($services);
 
         // Done, so erase it...
         CLI::showProgress(false);
-
-        echo count($services) . " services created" . PHP_EOL;
+        CLI::write('=================================================================================', 'white') . PHP_EOL;
     }
 
     private function getPrice(): string
@@ -51,10 +52,7 @@ class Service extends Seeder
 
             CLI::showProgress($currStep++, self::TOTAL_STEPS); //! mostramos um progresso para orientar o usuário
 
-            $price = number_format(mt_rand(1, 1000) / 100, 2, ',', '.');
-            $price =
-
-                $service = new ServiceEntity();
+            $service = new ServiceEntity();
             $service->name  = $faker->bs(); //! isso me dá algumas palavra
             $service->price = $this->getPrice();
 

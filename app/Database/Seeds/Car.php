@@ -21,12 +21,13 @@ class Car extends Seeder
 
         $cars = $this->getCars();
 
+        CLI::write('Creating ' . count($cars) . ' cars. Please, wait.', 'yellow');
+
         model(CarModel::class)->insertBatch($cars);
 
         // Done, so erase it...
         CLI::showProgress(false);
-
-        echo count($cars) . " cars created" . PHP_EOL;
+        CLI::write('=================================================================================', 'white') . PHP_EOL;
     }
 
 
@@ -46,6 +47,7 @@ class Car extends Seeder
         $carsContainer = [];
 
         $currStep   = 1;
+        
 
         $faker = (new \Faker\Factory())::create();
         $faker->addProvider(new \Faker\Provider\Fakecar($faker));

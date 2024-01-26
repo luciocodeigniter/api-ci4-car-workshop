@@ -3,6 +3,7 @@
 namespace App\Database\Seeds;
 
 use App\Models\CustomerModel;
+use CodeIgniter\CLI\CLI;
 use CodeIgniter\Database\Seeder;
 
 class Customer extends Seeder
@@ -14,9 +15,13 @@ class Customer extends Seeder
 
         $customers = self::customers();
 
+        CLI::write('Creating ' . count($customers) . ' customers. Please, wait.', 'yellow');
+
         $builder->insertBatch($customers);
 
-        echo count($customers) . ' customers created' . PHP_EOL;
+        // Done, so erase it...
+        CLI::showProgress(false);
+        CLI::write('=================================================================================', 'white') . PHP_EOL;
     }
 
     private static function customers(): array

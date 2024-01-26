@@ -21,12 +21,14 @@ class Address extends Seeder
 
         $address = $this->getAddress();
 
-        model(AddressModel::class)->insertBatch($address);
+        CLI::write('Creating ' . count($address) . ' addresses. Please, wait.', 'yellow');
 
+        model(AddressModel::class)->insertBatch($address);
+        
         // Done, so erase it...
         CLI::showProgress(false);
 
-        echo count($address) . " addresses created" . PHP_EOL;
+        CLI::write('=================================================================================', 'white') . PHP_EOL;
     }
 
 

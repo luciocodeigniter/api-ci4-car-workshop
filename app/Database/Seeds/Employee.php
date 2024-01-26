@@ -20,12 +20,13 @@ class Employee extends Seeder
 
         $employees = $this->getEmployees();
 
+        CLI::write('Creating ' . count($employees) . ' employees. Please, wait.', 'yellow');
+
         model(EmployeeModel::class)->insertBatch($employees);
 
         // Done, so erase it...
         CLI::showProgress(false);
-
-        echo count($employees) . " employees created" . PHP_EOL;
+        CLI::write('=================================================================================', 'white') . PHP_EOL;
     }
 
 
