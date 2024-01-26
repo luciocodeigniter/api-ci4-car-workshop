@@ -2,21 +2,21 @@
 
 namespace App\Controllers\Api;
 
-use App\Entities\Address;
-use App\Libraries\Address\AddressGetDataService;
-use App\Models\AddressModel;
-use App\Validation\AddressValidation;
+use App\Entities\Maintenance;
+use App\Libraries\Maintenance\MaintenanceGetDataService;
+use App\Models\MaintenanceModel;
+use App\Validation\MaintenanceValidation;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
 
-class AdressesController extends ResourceController
+class MaintenanceController extends ResourceController
 {
 
-    protected $modelName = AddressModel::class;
+    protected $modelName = MaintenanceModel::class;
     protected $format    = 'json';
 
     /**
-     * Return an array of resource objects, themselves in array format. api/adresses?perPage=2&page=1
+     * Return an array of resource objects, themselves in array format. api/maintenance?perPage=2&page=1
      * 
      *
      * @return ResponseInterface
@@ -27,9 +27,11 @@ class AdressesController extends ResourceController
         $page    = !empty($this->request->getGet('page')) ? (int) $this->request->getGet('page') : null;
         $perPage = !empty($this->request->getGet('perPage')) ? (int) $this->request->getGet('perPage') : null;
 
-        $adresses = (new AddressGetDataService)->paginate(perPage: $perPage, page: $page);
 
-        return $this->respond($adresses);
+        $maintenances = (new MaintenanceGetDataService)->paginate(perPage: $perPage, page: $page);
+
+
+        return $this->respond($maintenances);
     }
 
     /**
@@ -39,9 +41,9 @@ class AdressesController extends ResourceController
      */
     public function show($id = null)
     {
-        $address = $this->model->find($id);
+        $service = $this->model->find($id);
 
-        return ($address !== null) ? $this->respond($address) : $this->failNotFound();
+        return ($service !== null) ? $this->respond($service) : $this->failNotFound();
     }
 
 
@@ -52,7 +54,7 @@ class AdressesController extends ResourceController
      */
     public function create()
     {
-        $rules = (new AddressValidation)->getRules();
+        $rules = (new MaintenanceValidation)->getRules();
 
         if (!$this->validate($rules)) {
 
@@ -61,9 +63,9 @@ class AdressesController extends ResourceController
 
         $request = $this->request->getJSON(assoc: true);
 
-        $address = new Address($request);
+        $maintenance = new Maintenance($request);
 
-        $this->model->insert($address);
+        $this->model->insert($maintenance);
 
         return $this->respondCreated(message: 'Success!');
     }
@@ -77,7 +79,7 @@ class AdressesController extends ResourceController
     public function update($id = null)
     {
 
-        $rules = (new AddressValidation)->getRules();
+        $rules = (new MaintenanceValidation)->getRules();
 
         if (!$this->validate($rules)) {
 
@@ -85,20 +87,21 @@ class AdressesController extends ResourceController
         }
 
 
-        $address = $this->model->find($id);
+        $maintenance = $this->model->find($id);
 
-        if ($address === null) {
+        if ($maintenance === null) {
 
             return $this->failNotFound();
         }
 
+        // transformamos o JSON em array associativo
         $request = $this->request->getJSON(assoc: true);
 
-        $address->fill($request);
+        $maintenance->fill($request);
 
-        if ($address->hasChanged()) {
+        if ($maintenance->hasChanged()) {
 
-            $this->model->save($address);
+            $this->model->save($maintenance);
         }
 
         return $this->respondUpdated(message: 'Success!');
@@ -112,9 +115,9 @@ class AdressesController extends ResourceController
     public function delete($id = null)
     {
 
-        $address = $this->model->find($id);
+        $maintenance = $this->model->find($id);
 
-        if ($address === null) {
+        if ($maintenance === null) {
 
             return $this->failNotFound();
         }

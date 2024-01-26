@@ -16,7 +16,7 @@ class EmployeesController extends ResourceController
     protected $format    = 'json';
 
     /**
-     * Return an array of resource objects, themselves in array format. api/customers?perPage=2&page=1
+     * Return an array of resource objects, themselves in array format. api/emplyees?perPage=2&page=1
      * 
      *
      * @return ResponseInterface
