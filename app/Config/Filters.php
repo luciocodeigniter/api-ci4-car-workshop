@@ -2,6 +2,7 @@
 
 namespace Config;
 
+use App\Filters\Throttle;
 use CodeIgniter\Config\BaseConfig;
 use CodeIgniter\Filters\CSRF;
 use CodeIgniter\Filters\DebugToolbar;
@@ -24,6 +25,7 @@ class Filters extends BaseConfig
         'honeypot'      => Honeypot::class,
         'invalidchars'  => InvalidChars::class,
         'secureheaders' => SecureHeaders::class,
+        'rate-limiter'  => Throttle::class,
     ];
 
     /**
@@ -56,7 +58,13 @@ class Filters extends BaseConfig
      * permits any HTTP method to access a controller. Accessing the controller
      * with a method you don't expect could bypass the filter.
      */
-    public array $methods = [];
+    public array $methods = [
+        'get'  => ['rate-limiter', ],
+        'post' => ['rate-limiter', ],
+        'put'  => ['rate-limiter', ],
+        'patch'  => ['rate-limiter', ],
+        'delete'  => ['rate-limiter', ],
+    ];
 
     /**
      * List of filter aliases that should run on any
