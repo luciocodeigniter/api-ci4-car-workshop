@@ -13,4 +13,18 @@ class EmployeeModel extends ApiModel
         'name',
         'skills',
     ];
+
+
+    public function find($id = null): Employee|null
+    {
+
+        $employee = parent::find($id);
+
+        if ($employee !== null) {
+
+            $employee->maintenance = model(MaintenanceModel::class)->where('employee_id', $employee->id)->findAll();
+        }
+
+        return $employee;
+    }
 }
