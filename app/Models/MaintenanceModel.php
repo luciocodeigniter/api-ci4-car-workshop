@@ -22,7 +22,7 @@ class MaintenanceModel extends ApiModel
 
         if ($maintenance !== null) {
 
-            $maintenance->employee = model(EmployeeModel::class)->where('employee_id', $maintenance->employee_id)->first();
+            $maintenance->employee = model(EmployeeModel::class)->where('id', $maintenance->employee_id)->first();
             $maintenance->car      = model(CarModel::class)->where('id', $maintenance->car_id)->first(); //! com o find o model recupera novamente o registro atual ($this)
             $maintenance->customer = model(CustomerModel::class)->where('id', $maintenance->car->id)->first(); //! com o find o model recupera novamente o registro atual ($this)
             $maintenance->services = model(MaintenanceServiceModel::class)->getServices(maintenanceId: $maintenance->id);

@@ -47,11 +47,17 @@ class MaintenanceValidation
             'check_in' => [
                 'label'  => 'CheckIn',
                 'rules'  => "required|valid_date[Y-m-d H:i:s]",
+                'errors' => [
+                    'valid_date' => 'Expected format: Y-m-d H:i:s',
+                ],
             ],
 
             'check_out' => [
                 'label'  => 'CheckOut',
                 'rules'  => "required|valid_date[Y-m-d H:i:s]",
+                'errors' => [
+                    'valid_date' => 'Expected format: Y-m-d H:i:s',
+                ],
             ],
         ];
     }

@@ -24,7 +24,7 @@ class MaintenanceGetDataService
     {
 
         // Pagina os manutenções
-        $maintenances = model(MaintenanceModel::class)->orderBy('id', 'ASC')->groupBy('name')->paginate(perPage: $perPage, page: $page);
+        $maintenances = model(MaintenanceModel::class)->orderBy('id', 'ASC')->paginate(perPage: $perPage, page: $page);
 
         // Verifica se não há manutenções
         if (empty($maintenances)) {
@@ -51,21 +51,20 @@ class MaintenanceGetDataService
         // Obtém os IDs das manutenções
         $maintenancesIds = array_column($maintenances, 'id');
 
-        // Obtém os IDs dos clientes
-        $customerIds = array_column($maintenances, 'customer_id');
-
         // Obtém os IDs dos carros
         $carsIds = array_column($maintenances, 'car_id');
 
         // Obtém os IDs dos funcionários
         $employeesIds = array_column($maintenances, 'employee_id');
 
+        // Busca todos os carros associados às manutenções em uma única consulta
+        $cars = empty($carsIds) ? [] : model(CarModel::class)->whereIn('id', $carsIds)->findAll();
+
+        // Obtém os IDs dos clientes
+        $customerIds = array_column($cars, 'customer_id');
 
         // Busca todos os clientes associados às manutenções em uma única consulta
         $customers = empty($customerIds) ? [] : model(CustomerModel::class)->whereIn('id', $customerIds)->findAll();
-
-        // Busca todos os carros associados às manutenções em uma única consulta
-        $cars = empty($carsIds) ? [] : model(CarModel::class)->whereIn('id', $carsIds)->findAll();
 
         // Busca todos os funcionarios associados às manutenções em uma única consulta
         $employees = empty($employeesIds) ? [] : model(EmployeeModel::class)->whereIn('id', $employeesIds)->findAll();
@@ -77,17 +76,19 @@ class MaintenanceGetDataService
         // Itera sobre cada manutenção para associar os clientes, carros, funcionários e serviços
         foreach ($maintenances as &$maintenance) {
 
-            //! associamos os clientes
-            foreach ($customers as $customer) {
-
-                if ($maintenance->customer_id === $customer->id) {
-                    $maintenance->customer = $customer;
-                    break; //! uma manutenção só possui um cliente
-                }
-            }
 
             //! associamos os carros
             foreach ($cars as $car) {
+
+                //! associamos os clientes aos carros
+                foreach ($customers as $customer) {
+
+                    if ($car->customer_id === $customer->id) {
+                        $car->customer = $customer;
+                        break; //! um carro só possui um cliente
+                    }
+                }
+
 
                 if ($maintenance->car_id === $car->id) {
                     $maintenance->car = $car;
