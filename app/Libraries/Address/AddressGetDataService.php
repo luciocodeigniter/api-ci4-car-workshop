@@ -28,6 +28,21 @@ class AddressGetDataService
             return [];
         }
 
+        $this->associateData(adresses: $adresses);
+
+        return $adresses;
+    }
+
+
+    /**
+     * Associates the objects that are part of each address
+     *
+     * @param array $adresses
+     * @return void
+     */
+    private function associateData(array $adresses): void
+    {
+
         // Obtém os IDs dos clientes
         $customersIds = array_column($adresses, 'customer_id');
 
@@ -46,8 +61,5 @@ class AddressGetDataService
         foreach ($adresses as &$address) {
             $address->customer = $indexedCustomers[$address->customer_id] ?? null;
         }
-
-
-        return $adresses;
     }
 }

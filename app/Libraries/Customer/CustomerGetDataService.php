@@ -39,6 +39,7 @@ class CustomerGetDataService
         $adresses = model(AddressModel::class)->whereIn('customer_id', $customerIds)->findAll();
 
         foreach ($customers as &$customer) {
+            
             $customer->cars = array_filter($cars, function ($car) use ($customer) {
 
                 // note que quando usamos o seeder, por temos o randomização dos IDS do customers existentes, 

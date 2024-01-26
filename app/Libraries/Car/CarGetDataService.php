@@ -28,6 +28,22 @@ class CarGetDataService
             return [];
         }
 
+
+        $this->associateData(cars: $cars);
+
+        return $cars;
+    }
+
+
+    /**
+     * Associates the objects that are part of each car
+     *
+     * @param array $cars
+     * @return void
+     */
+    private function associateData(array $cars): void
+    {
+
         // Obtém os IDs dos clientes
         $customersIds = array_column($cars, 'customer_id');
 
@@ -45,8 +61,5 @@ class CarGetDataService
         foreach ($cars as &$car) {
             $car->customer = $indexedCustomers[$car->customer_id] ?? null;
         }
-
-
-        return $cars;
     }
 }

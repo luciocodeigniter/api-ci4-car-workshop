@@ -17,6 +17,12 @@ class CreateTableMaintenanceServices extends Migration
                 'auto_increment'    => true
             ],
 
+            'maintenance_id' => [
+                'type'              => 'INT',
+                'constraint'        => 11,
+                'unsigned'          => true,
+            ],
+
             'service_id' => [
                 'type'              => 'INT',
                 'constraint'        => 11,
@@ -32,6 +38,7 @@ class CreateTableMaintenanceServices extends Migration
 
         $this->forge->addKey('id', true);
 
+        $this->forge->addForeignKey('maintenance_id', 'maintenance', 'id', 'CASCADE', 'CASCADE');
         $this->forge->addForeignKey('service_id', 'services', 'id', 'CASCADE', 'CASCADE');
 
 
