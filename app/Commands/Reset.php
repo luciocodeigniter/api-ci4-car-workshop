@@ -10,7 +10,7 @@ use App\Database\Seeds\Service;
 use CodeIgniter\CLI\BaseCommand;
 use CodeIgniter\CLI\CLI;
 
-class Init extends BaseCommand
+class Reset extends BaseCommand
 {
     /**
      * The Command's Group
@@ -24,21 +24,21 @@ class Init extends BaseCommand
      *
      * @var string
      */
-    protected $name = 'api:init';
+    protected $name = 'api:reset';
 
     /**
      * The Command's Description
      *
      * @var string
      */
-    protected $description = 'Create tables, seed the database with Customers, Cars, Address, Employees and Services';
+    protected $description = 'Recreate the tables and seed the database with Customers, Cars, Address, Employees and Services';
 
     /**
      * The Command's Usage
      *
      * @var string
      */
-    protected $usage = 'api:init';
+    protected $usage = 'api:reset';
 
     /**
      * The Command's Arguments
@@ -64,20 +64,10 @@ class Init extends BaseCommand
 
 
         try {
-
-            command('migrate --all');
-
-            $seeder = \Config\Database::seeder();
-            $seeder->call(Customer::class);
-            $seeder->call(Car::class);
-            $seeder->call(Address::class);
-            $seeder->call(Service::class);
-            $seeder->call(Employee::class);
-
             
+            command('migrate:rollback -b 0');
+            command('api:init');
 
-            CLI::write(); // break line
-            CLI::write('The API is ready to use!', 'blue');
         } catch (\Exception $e) {
             $this->showError($e);
         }
