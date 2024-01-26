@@ -9,6 +9,7 @@ class Service extends Entity
     protected $datamap = [];
     protected $dates   = [];
     protected $casts   = [
-        'id'          => '?integer',
+        'id'             => '?integer',
+        'maintenance_id' => '?integer', //! uso no join para recuperar os serviços da manutenção
     ];
 }

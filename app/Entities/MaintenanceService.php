@@ -9,7 +9,8 @@ class MaintenanceService extends Entity
     protected $datamap = [];
     protected $dates   = [];
     protected $casts   = [
-        'id'          => '?integer',
-        'service_id'  => '?integer',
+        'id'             => '?integer',
+        'service_id'     => '?integer',
+        'maintenance_id' => '?integer',
     ];
 }

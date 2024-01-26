@@ -106,6 +106,7 @@ class MaintenanceGetDataService
             }
 
 
+
             //! associamos os serviços que cada manutenção possui
             $maintenance->services = array_filter($services, function ($service) use ($maintenance) {
                 return $service->maintenance_id === $maintenance->id;

@@ -28,12 +28,13 @@ class MaintenanceServiceModel extends ApiModel
     public function getServices(int|array $maintenanceId): array
     {
         $builder = $this;
+        $builder->select(['maintenance_services.*', 'services.name', 'services.price']);
         $builder->join('services', 'services.id = maintenance_services.service_id');
 
         (is_array($maintenanceId)) ? $builder->whereIn('maintenance_services.maintenance_id', $maintenanceId) : $builder->where('maintenance_services.maintenance_id', $maintenanceId);
 
         $builder->groupBy('services.name');
         $builder->orderBy('name', 'ASC');
-        return $builder->asObject(Service::class)->findAll();
+        return $builder->findAll();
     }
 }

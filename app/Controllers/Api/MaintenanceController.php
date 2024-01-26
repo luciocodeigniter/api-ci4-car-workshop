@@ -9,7 +9,7 @@ use App\Validation\MaintenanceValidation;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
 
-class MaintenanceServicesController extends ResourceController
+class MaintenanceController extends ResourceController
 {
 
     protected $modelName = MaintenanceModel::class;
