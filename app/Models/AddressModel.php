@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Entities\Address;
+
 class AddressModel extends ApiModel
 {
 
     protected $table            = 'adresses';
+    protected $returnType       = Address::class;
     protected $allowedFields    = [
         'customer_id',
         'country',
@@ -15,13 +18,13 @@ class AddressModel extends ApiModel
         'street',
     ];
     
-    public function find($id = null): array|null
+    public function find($id = null): Address|null
     {
         $address = parent::find($id);
 
         if ($address !== null) {
 
-            $address['customer'] = model(CustomerModel::class)->asArray()->find($address['customer_id']);
+            $address->customer = model(CustomerModel::class)->where('id', $address->customer_id)->first(); //! com o find o model recupera novamente o registro atual ($this)
         }
 
         return $address;

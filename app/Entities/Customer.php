@@ -7,7 +7,7 @@ use CodeIgniter\Entity\Entity;
 class Customer extends Entity
 {
     protected $datamap = [];
-    protected $dates   = ['created_at', 'updated_at'];
+    protected $dates   = [];
     protected $casts   = [
         'id' => '?integer',
     ];

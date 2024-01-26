@@ -39,7 +39,7 @@ class CarsController extends ResourceController
      */
     public function show($id = null)
     {
-        $car = $this->model->asArray()->find($id);
+        $car = $this->model->find($id);
 
         return ($car !== null) ? $this->respond($car) : $this->failNotFound();
     }
@@ -76,13 +76,20 @@ class CarsController extends ResourceController
      */
     public function update($id = null)
     {
+
+        $rules = (new CarValidation)->getRules();
+
+        if (!$this->validate($rules)) {
+
+            return $this->failValidationErrors($this->validator->getErrors());
+        }
+
         $car = $this->model->find($id);
 
         if ($car === null) {
 
             return $this->failNotFound();
         }
-
 
         $request = $this->request->getJSON(assoc: true);
 

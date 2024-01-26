@@ -25,7 +25,6 @@ class ApiModel extends Model
 
     protected $primaryKey       = 'id';
     protected $useAutoIncrement = true;
-    protected $returnType       = 'array'; //! as array
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
 

@@ -41,7 +41,7 @@ class CustomersController extends ResourceController
      */
     public function show($id = null)
     {
-        $customer = $this->model->asArray()->find($id);
+        $customer = $this->model->find($id);
 
         return ($customer !== null) ? $this->respond($customer) : $this->failNotFound();
     }
@@ -85,7 +85,15 @@ class CustomersController extends ResourceController
             return $this->failNotFound();
         }
 
+        $rules = (new CustomerValidation)->getRules(id: $customer->id);
 
+        if (!$this->validate($rules)) {
+
+            return $this->failValidationErrors($this->validator->getErrors());
+        }
+
+
+        // transformamos o JSON em array associativo
         $request = $this->request->getJSON(assoc: true);
 
         $customer->fill($request);

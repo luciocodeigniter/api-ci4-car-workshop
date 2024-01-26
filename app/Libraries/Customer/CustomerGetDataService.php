@@ -22,7 +22,7 @@ class CustomerGetDataService
     {
 
         // Pagina os clientes
-        $customers = model(CustomerModel::class)->asArray()->orderBy('id', 'ASC')->groupBy('name')->paginate(perPage: $perPage, page: $page);
+        $customers = model(CustomerModel::class)->orderBy('id', 'ASC')->groupBy('name')->paginate(perPage: $perPage, page: $page);
 
         // Verifica se não há clientes
         if (empty($customers)) {
@@ -39,20 +39,20 @@ class CustomerGetDataService
         $adresses = model(AddressModel::class)->whereIn('customer_id', $customerIds)->findAll();
 
         foreach ($customers as &$customer) {
-            $customer['cars'] = array_filter($cars, function ($car) use ($customer) {
+            $customer->cars = array_filter($cars, function ($car) use ($customer) {
 
                 // note que quando usamos o seeder, por temos o randomização dos IDS do customers existentes, 
                 // alguns customers podem ficar sem carro.
                 // isso não ocorre quando o carro é criado pela API
-                return $car['customer_id'] === $customer['id'];
+                return $car->customer_id === $customer->id;
             });
 
-            $customer['adresses'] = array_filter($adresses, function ($address) use ($customer) {
+            $customer->adresses = array_filter($adresses, function ($address) use ($customer) {
 
                 // note que quando usamos o seeder, por temos o randomização dos IDS do customers existentes, 
                 // alguns customers podem ficar sem endereço.
                 // isso não ocorre quando o carro é criado pela API
-                return $address['customer_id'] === $customer['id'];
+                return $address->customer_id === $customer->id;
             });
         }
 

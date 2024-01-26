@@ -2,7 +2,10 @@
 
 namespace App\Controllers\Api;
 
+use App\Entities\Address;
+use App\Libraries\Address\AddressGetDataService;
 use App\Models\AddressModel;
+use App\Validation\AddressValidation;
 use CodeIgniter\HTTP\ResponseInterface;
 use CodeIgniter\RESTful\ResourceController;
 
@@ -24,9 +27,9 @@ class AdressesController extends ResourceController
         $page    = !empty($this->request->getGet('page')) ? (int) $this->request->getGet('page') : null;
         $perPage = !empty($this->request->getGet('perPage')) ? (int) $this->request->getGet('perPage') : null;
 
-        $cars = (new CarGetDataService)->paginate(perPage: $perPage, page: $page);
+        $adresses = (new AddressGetDataService)->paginate(perPage: $perPage, page: $page);
 
-        return $this->respond($cars);
+        return $this->respond($adresses);
     }
 
     /**
@@ -36,9 +39,9 @@ class AdressesController extends ResourceController
      */
     public function show($id = null)
     {
-        $car = $this->model->asArray()->find($id);
+        $address = $this->model->find($id);
 
-        return ($car !== null) ? $this->respond($car) : $this->failNotFound();
+        return ($address !== null) ? $this->respond($address) : $this->failNotFound();
     }
 
 
@@ -49,7 +52,7 @@ class AdressesController extends ResourceController
      */
     public function create()
     {
-        $rules = (new CarValidation)->getRules();
+        $rules = (new AddressValidation)->getRules();
 
         if (!$this->validate($rules)) {
 
@@ -58,9 +61,9 @@ class AdressesController extends ResourceController
 
         $request = $this->request->getJSON(assoc: true);
 
-        $car = new Car($request);
+        $address = new Address($request);
 
-        $this->model->insert($car);
+        $this->model->insert($address);
 
         return $this->respondCreated(message: 'Success!');
     }
@@ -73,21 +76,29 @@ class AdressesController extends ResourceController
      */
     public function update($id = null)
     {
-        $car = $this->model->find($id);
 
-        if ($car === null) {
+        $rules = (new AddressValidation)->getRules();
+
+        if (!$this->validate($rules)) {
+
+            return $this->failValidationErrors($this->validator->getErrors());
+        }
+
+
+        $address = $this->model->find($id);
+
+        if ($address === null) {
 
             return $this->failNotFound();
         }
 
-
         $request = $this->request->getJSON(assoc: true);
 
-        $car->fill($request);
+        $address->fill($request);
 
-        if ($car->hasChanged()) {
+        if ($address->hasChanged()) {
 
-            $this->model->save($car);
+            $this->model->save($address);
         }
 
         return $this->respondUpdated(message: 'Success!');
@@ -101,9 +112,9 @@ class AdressesController extends ResourceController
     public function delete($id = null)
     {
 
-        $car = $this->model->find($id);
+        $address = $this->model->find($id);
 
-        if ($car === null) {
+        if ($address === null) {
 
             return $this->failNotFound();
         }
