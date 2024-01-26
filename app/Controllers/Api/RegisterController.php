@@ -2,21 +2,11 @@
 
 declare(strict_types=1);
 
-/**
- * This file is part of CodeIgniter Shield.
- *
- * (c) CodeIgniter Foundation <admin@codeigniter.com>
- *
- * For the full copyright and license information, please view
- * the LICENSE file that was distributed with this source code.
- */
-
 namespace App\Controllers\Api;
 
 use App\Controllers\BaseController;
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\Events\Events;
-use CodeIgniter\HTTP\RedirectResponse;
 use CodeIgniter\HTTP\Response;
 use CodeIgniter\Shield\Entities\User;
 use CodeIgniter\Shield\Exceptions\ValidationException;
