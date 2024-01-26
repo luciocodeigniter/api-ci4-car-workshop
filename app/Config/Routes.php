@@ -4,6 +4,7 @@ use App\Controllers\Api\AdressesController;
 use App\Controllers\Api\CarsController;
 use App\Controllers\Api\CustomersController;
 use App\Controllers\Api\EmployeesController;
+use App\Controllers\Api\LoginController;
 use App\Controllers\Api\MaintenanceController;
 use App\Controllers\Api\MaintenanceServicesController;
 use App\Controllers\Api\ServicesController;
@@ -16,6 +17,9 @@ $routes->get('/', 'Home::index');
 
 
 $routes->group('api', ['namespace' => '', 'placeholder' => '(:num)'], static function ($routes) {
+
+    $routes->post('login', [LoginController::class, 'create']);
+
     $routes->resource('customers', ['controller' => CustomersController::class, 'except' => 'new,edit']);
     $routes->resource('cars',      ['controller' => CarsController::class,      'except' => 'new,edit']);
     $routes->resource('adresses',  ['controller' => AdressesController::class,  'except' => 'new,edit']);
