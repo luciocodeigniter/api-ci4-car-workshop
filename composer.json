@@ -1,14 +1,16 @@
 {
-    "name": "codeigniter4/appstarter",
-    "description": "CodeIgniter4 starter app",
-    "license": "MIT",
+    "name": "luciocodeigniter/api-ci4-car-workshop",
     "type": "project",
-    "homepage": "https://codeigniter.com",
-    "support": {
-        "forum": "https://forum.codeigniter.com/",
-        "source": "https://github.com/codeigniter4/CodeIgniter4",
-        "slack": "https://codeigniterchat.slack.com"
-    },
+    "description": "API for creating customers, their cars, their addresses, creating services and employees. Creation of customer vehicle maintenance with Codeigniter 4. The API provides registration and authentication.",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Lucio Souza",
+            "email": "luciocodeigniter@gmail.com",
+            "homepage": "https://vouaprender.dev.br",
+            "role": "Developer"
+        }
+    ],
     "require": {
         "php": "^7.4 || ^8.0",
         "codeigniter4/framework": "^4.0",
