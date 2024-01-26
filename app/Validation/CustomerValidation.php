@@ -29,7 +29,7 @@ class CustomerValidation
 
             'email' => [
                 'label'  => 'E-mail',
-                'rules'  => "required|max_length[128]|is_unique[customers.email,id,{$id}]",
+                'rules'  => "required|valid_email|max_length[128]|is_unique[customers.email,id,{$id}]",
                 'errors' => [
                     'is_unique'    => 'Already exists. Please choose another one.',
                 ],
