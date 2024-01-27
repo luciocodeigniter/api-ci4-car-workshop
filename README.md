@@ -31,7 +31,7 @@ composer create-project luciocodeigniter/api-ci4-car-workshop
 ```
 
 
-2 - Rename the ```sh .env-exemple.txt ``` file to ``` .env ``` which can be found in the project root
+2 - Rename the ``` .env-exemple.txt ``` file to ``` .env ``` which can be found in the project root
 
 3 - Place the information in the ``` .env ``` file as per the following example:
 
