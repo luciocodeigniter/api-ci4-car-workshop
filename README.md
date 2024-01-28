@@ -147,6 +147,11 @@ PUT or PATCH https://exemplo.com/api/customers/1
 DELETE https://exemplo.com/api/customers/1
 ```
 
+## - Paginating records. All endpoints that list records return 20 per page. You can change this by sending the request as follows:
+```sh
+api/endpoint?page=1&perPage=50
+```
+
 ## - Others endpoints
 ```sh
 https://exemplo.com/api/cars
